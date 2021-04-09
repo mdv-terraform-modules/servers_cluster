@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo ------------------------START BOOT STRAPING-----------------------
+sudo yum -y update
+sudo yum install -y httpd
+
+public_ip=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
+hostname=`curl http://169.254.169.254/latest/meta-data/hostname`
+echo "<html><body bgcolor=white><center><h2><p><font color=red>Server-$hostname powered by Terraform whis public ip-$public_ip greets you<h2><center><body><html>" > /var/www/html/index.html
+echo "Default page of forum" >> /var/www/html/index.html
+echo "Production" >> /var/www/html/index.html
+sudo mkdir /var/www/html/forum/
+sudo echo "<html><body bgcolor=white><center><h2><p><font color=red>Server-$hostname powered by Terraform whis public ip-$public_ip greets you<h2><center><body><html>" > /var/www/html/forum/index.html
+sudo echo "Forum page" >> /var/www/html/forum/index.html
+sudo echo "ver-1.0" >> /var/www/html/forum/index.html
+sudo service httpd start
+chkconfig httpd on
+
+echo -----------------------FINISH BOOT STRAPING-----------------------
